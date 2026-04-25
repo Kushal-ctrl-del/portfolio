@@ -1066,24 +1066,27 @@ footer{
     <div class="reveal">
       <div class="form-wrap">
         <form id="contactForm">
+          <input type="hidden" name="_subject" value="New Project Enquiry — Kushal Sankla Portfolio">
+          <input type="hidden" name="_replyto" id="replyToField">
+          <input type="text" name="_gotcha" style="display:none">
           <div class="form-row-2">
             <div class="fgroup">
               <label class="flabel">Full Name <span class="req">*</span></label>
-              <input type="text" class="finput" placeholder="Your name" required>
+              <input type="text" name="name" class="finput" placeholder="Your name" required>
             </div>
             <div class="fgroup">
               <label class="flabel">Email <span class="req">*</span></label>
-              <input type="email" class="finput" placeholder="your@email.com" required>
+              <input type="email" name="email" id="emailField" class="finput" placeholder="your@email.com" required>
             </div>
           </div>
           <div class="form-row-2">
             <div class="fgroup">
               <label class="flabel">Phone Number <span class="req">*</span></label>
-              <input type="tel" class="finput" placeholder="+91 99999 99999" required pattern="[+0-9\s\-]{7,15}">
+              <input type="tel" name="phone" class="finput" placeholder="+91 99999 99999" required pattern="[+0-9\s\-]{7,15}">
             </div>
             <div class="fgroup">
               <label class="flabel">Project Type <span class="req">*</span></label>
-              <select class="fselect" required>
+              <select name="project_type" class="fselect" required>
                 <option value="" disabled selected>Select a service</option>
                 <option>Custom Website</option>
                 <option>WhatsApp AI Agent</option>
@@ -1097,10 +1100,10 @@ footer{
           </div>
           <div class="fgroup">
             <label class="flabel">Tell me about your project <span class="req">*</span></label>
-            <textarea class="ftextarea" placeholder="What do you need? What's your business? Any deadline or budget in mind?" required></textarea>
+            <textarea name="message" class="ftextarea" placeholder="What do you need? What's your business? Any deadline or budget in mind?" required></textarea>
           </div>
           <button type="submit" class="fsubmit" id="submitBtn">Send Message →</button>
-          <div class="form-error-msg" id="formError">Something went wrong. Please try again or email directly.</div>
+          <div class="form-error-msg" id="formError">Something went wrong. Please try again or email me directly at Kushalsankala@gmail.com</div>
         </form>
         <div class="form-msg" id="formSuccess">
           <div class="form-msg-icon">✓</div>
@@ -1340,6 +1343,9 @@ document.querySelectorAll('.filter-tab').forEach(tab=>{
 });
 
 // FORMSPREE CONTACT
+document.getElementById('emailField').addEventListener('input',function(){
+  document.getElementById('replyToField').value=this.value;
+});
 document.getElementById('contactForm').addEventListener('submit',async function(e){
   e.preventDefault();
   const btn=document.getElementById('submitBtn');
@@ -1350,14 +1356,17 @@ document.getElementById('contactForm').addEventListener('submit',async function(
     const res=await fetch('https://formspree.io/f/xvzdyzgy',{
       method:'POST',body:data,headers:{'Accept':'application/json'}
     });
-    if(res.ok){
+    const json=await res.json();
+    if(res.ok && json.ok){
       this.style.display='none';
       document.getElementById('formSuccess').style.display='block';
     }else{
-      errEl.style.display='block';btn.disabled=false;btn.textContent='Send Message →';
+      errEl.style.display='block';
+      btn.disabled=false;btn.textContent='Send Message →';
     }
   }catch(err){
-    errEl.style.display='block';btn.disabled=false;btn.textContent='Send Message →';
+    errEl.style.display='block';
+    btn.disabled=false;btn.textContent='Send Message →';
   }
 });
 

@@ -2,7 +2,7 @@
 
 > Personal portfolio website of **Kushal Sankla** — Web Developer & Digital Solutions Builder based in Chennai, India.
 
-🌐 **Live Site:** [kushalsankla.vercel.app](https://kushalsankla.vercel.app)
+🌐 **Live Site:** https://portfolio-bice-delta-59.vercel.app/
 
 ---
 
